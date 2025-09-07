@@ -1,0 +1,36 @@
+{
+  "name": "jsa-bot",
+  "version": "0.1.0",
+  "description": "Telegram bot that simulates the JSA-41-01 JavaScript certification exam",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "postbuild": "copyfiles -u 1 src/db/schema.sql dist/db/",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=18.18"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
+    "nanoid": "^5.0.7",
+    "node-cron": "^3.0.3",
+    "node-telegram-bot-api": "^0.64.0",
+    "sqlite3": "^5.1.7",
+    "winston": "^3.13.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "@types/node-telegram-bot-api": "^0.64.10",
+    "@types/sqlite3": "^3.1.11",
+    "copyfiles": "^2.4.1",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4"
+  }
+}
