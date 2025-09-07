@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc -p tsconfig.json",
-    "postbuild": "copyfiles -u 1 src/db/schema.sql dist/db/",
+    "postbuild": "copyfiles -u 1 src/db/schema.sql dist/db/ && copyfiles -u 1 data/questions.json dist/data/",
     "start": "node dist/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

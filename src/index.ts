@@ -2,15 +2,17 @@ import { config } from "./config.js";
 import { logger } from "./logger.js";
 import { initDb } from "./db/sqlite.js";
 import { seedBaseExam } from "./db/seed.js";
+import { ensureQuestionsLoaded } from "./db/load-questions.js";
 import TelegramBot from "node-telegram-bot-api";
 
 async function main() {
   await initDb(config.DB_FILE);
   await seedBaseExam();
+  await ensureQuestionsLoaded(50);
 
   const bot = new TelegramBot(config.BOT_TOKEN, { polling: true });
 
-  bot.onText(/^\/start\b/i, async (msg) => {
+  bot.onText(/^\/start\b/i, async (msg: TelegramBot.Message) => {
     try {
       const name = msg.from?.first_name ?? "there";
       const text =

@@ -1,0 +1,770 @@
+[
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "Which statement best describes how property lookup works in JavaScript objects?",
+    "options": [
+      {
+        "text": "The engine only checks own properties, never prototypes.",
+        "correct": false
+      },
+      {
+        "text": "If a property is not found on the object, the prototype chain is searched.",
+        "correct": true
+      },
+      {
+        "text": "All properties are copied from the prototype at construction time.",
+        "correct": false
+      },
+      {
+        "text": "Prototype lookup only happens for accessor properties.",
+        "correct": false
+      }
+    ],
+    "explanation": "Property access checks the object first, then follows [[Prototype]] links until found or reaching null."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "What does Object.create(proto) do?",
+    "options": [
+      {
+        "text": "Clones proto into a new object with copied properties.",
+        "correct": false
+      },
+      {
+        "text": "Creates a new object whose [[Prototype]] is proto.",
+        "correct": true
+      },
+      { "text": "Creates a class instance from proto.", "correct": false },
+      {
+        "text": "Returns proto if proto is already an object.",
+        "correct": false
+      }
+    ],
+    "explanation": "Object.create sets the internal [[Prototype]] of the new object to the given object."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "In strict mode, what is `this` inside a simple function call (not a method)?",
+    "code_snippet": "function f(){ 'use strict'; return this; }\nconst v = f();",
+    "options": [
+      { "text": "The global object", "correct": false },
+      { "text": "undefined", "correct": true },
+      { "text": "The function itself", "correct": false },
+      { "text": "A new empty object", "correct": false }
+    ],
+    "explanation": "In strict mode, `this` is `undefined` for bare function calls."
+  },
+  {
+    "section": "objects",
+    "type": "multi",
+    "text": "Which are true about Object.defineProperty descriptor defaults?",
+    "options": [
+      { "text": "`configurable` defaults to false", "correct": true },
+      { "text": "`enumerable` defaults to false", "correct": true },
+      { "text": "`writable` defaults to true", "correct": false },
+      { "text": "`value` defaults to undefined", "correct": true }
+    ],
+    "explanation": "Undefined attributes default to: configurable=false, enumerable=false, writable=false, value=undefined."
+  },
+  {
+    "section": "objects",
+    "type": "multi",
+    "text": "Pick all correct statements about freeze, seal, and preventExtensions:",
+    "options": [
+      {
+        "text": "Object.freeze makes all existing properties non-writable and non-configurable",
+        "correct": true
+      },
+      {
+        "text": "Object.seal prevents adding/removing properties but allows changing writable values",
+        "correct": true
+      },
+      {
+        "text": "Object.preventExtensions prevents adding new properties",
+        "correct": true
+      },
+      {
+        "text": "Object.freeze allows adding properties but not removing",
+        "correct": false
+      }
+    ],
+    "explanation": "freeze = non-extensible + non-configurable + non-writable; seal = non-extensible + configurable=false; preventExtensions = non-extensible."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "What does Object.assign do with nested objects?",
+    "options": [
+      { "text": "Performs a deep clone", "correct": false },
+      {
+        "text": "Performs a shallow copy of own enumerable properties",
+        "correct": true
+      },
+      { "text": "Copies only primitives", "correct": false },
+      { "text": "Recursively freezes nested objects", "correct": false }
+    ],
+    "explanation": "Object.assign is shallow."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "Which check returns true only for own (non-inherited) properties?",
+    "options": [
+      { "text": "key in obj", "correct": false },
+      { "text": "obj.hasOwnProperty(key)", "correct": true },
+      { "text": "obj[key] !== undefined", "correct": false },
+      { "text": "Object.getPrototypeOf(obj) === null", "correct": false }
+    ],
+    "explanation": "`in` sees prototype properties; hasOwnProperty checks own props."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "What happens when deleting a property found only on the prototype?",
+    "code_snippet": "const proto = { a: 1 };\nconst o = Object.create(proto);\ndelete o.a;",
+    "options": [
+      { "text": "Deletes a from proto", "correct": false },
+      {
+        "text": "Does nothing; delete targets own properties",
+        "correct": true
+      },
+      { "text": "Throws TypeError", "correct": false },
+      { "text": "Shadows a with undefined", "correct": false }
+    ],
+    "explanation": "delete only affects own props; inherited remains."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "Which loop enumerates inherited enumerable properties?",
+    "options": [
+      { "text": "Object.keys(obj)", "correct": false },
+      { "text": "Object.getOwnPropertyNames(obj)", "correct": false },
+      { "text": "for...in", "correct": true },
+      { "text": "Object.values(obj)", "correct": false }
+    ],
+    "explanation": "for...in visits own + inherited enumerable keys."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "Order of object keys: which is true for integer-like keys?",
+    "code_snippet": "const o = { '2': 'b', '1': 'a', 'x': 'z' }; Object.keys(o)",
+    "options": [
+      { "text": "Insertion order for all keys", "correct": false },
+      {
+        "text": "Integer-like keys are sorted ascending, then insertion order for the rest",
+        "correct": true
+      },
+      { "text": "All keys sorted ascending", "correct": false },
+      { "text": "All keys sorted descending", "correct": false }
+    ],
+    "explanation": "Property enumeration order: numeric indices ascending, then other keys in insertion order."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "Destructuring with defaults: which value does b get?",
+    "code_snippet": "const { a: b = 5 } = { };",
+    "options": [
+      { "text": "undefined", "correct": false },
+      { "text": "5", "correct": true },
+      { "text": "ReferenceError", "correct": false },
+      { "text": "null", "correct": false }
+    ],
+    "explanation": "Renaming + default assigns 5 to b."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "Computed property names in object literals work how?",
+    "code_snippet": "const k = 'age'; const o = { [k]: 42 };",
+    "options": [
+      { "text": "Creates property 'k'", "correct": false },
+      { "text": "Creates property 'age'", "correct": true },
+      { "text": "Throws SyntaxError", "correct": false },
+      { "text": "Creates symbol property", "correct": false }
+    ],
+    "explanation": "The expression inside [] is evaluated to the key."
+  },
+  {
+    "section": "objects",
+    "type": "multi",
+    "text": "Symbols as object keys — which statements are true?",
+    "options": [
+      {
+        "text": "Symbol-keyed properties are skipped by JSON.stringify()",
+        "correct": true
+      },
+      { "text": "Object.keys() does not list symbol keys", "correct": true },
+      { "text": "Reflect.ownKeys() includes symbol keys", "correct": true },
+      { "text": "for...in iterates symbol keys by default", "correct": false }
+    ],
+    "explanation": "JSON.stringify and Object.keys omit symbols; Reflect.ownKeys returns both string and symbol keys."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "What does Function.prototype.bind return?",
+    "options": [
+      { "text": "A new function with bound this/args", "correct": true },
+      { "text": "The same function with changed this", "correct": false },
+      { "text": "An arrow function with lexical this", "correct": false },
+      { "text": "A proxy to call/apply", "correct": false }
+    ],
+    "explanation": "bind returns a new callable with preset this/args."
+  },
+  {
+    "section": "objects",
+    "type": "single",
+    "text": "What does JSON.stringify do with circular references?",
+    "options": [
+      { "text": "Automatically replaces cycles with null", "correct": false },
+      { "text": "Throws a TypeError", "correct": true },
+      { "text": "Flattens cycles to arrays", "correct": false },
+      { "text": "Silently drops cyclic properties", "correct": false }
+    ],
+    "explanation": "Circular structure -> TypeError unless a custom replacer breaks cycles."
+  },
+
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "What must be done in a subclass constructor before accessing `this`?",
+    "code_snippet": "class A {} class B extends A { constructor(){ /* ? */ this.x = 1; }}",
+    "options": [
+      { "text": "Nothing; `this` is usable immediately", "correct": false },
+      { "text": "Call `super()` first", "correct": true },
+      { "text": "Bind `this` using `.bind(this)`", "correct": false },
+      { "text": "Define a static block", "correct": false }
+    ],
+    "explanation": "In derived classes, `super()` must run before using `this`."
+  },
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "How does `super.method()` behave in an overridden method?",
+    "options": [
+      {
+        "text": "Calls the parent method with `this` bound to the child instance",
+        "correct": true
+      },
+      {
+        "text": "Creates a new parent instance and calls on it",
+        "correct": false
+      },
+      {
+        "text": "Calls with `this` bound to the parent prototype",
+        "correct": false
+      },
+      { "text": "Throws unless method is static", "correct": false }
+    ],
+    "explanation": "`super.method()` resolves on prototype chain; `this` remains the current instance."
+  },
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "Which is true about arrow functions used as class methods?",
+    "options": [
+      { "text": "They have their own `this`", "correct": false },
+      {
+        "text": "They capture `this` lexically from the defining scope",
+        "correct": true
+      },
+      { "text": "They must be defined as static", "correct": false },
+      { "text": "They are not allowed in classes", "correct": false }
+    ],
+    "explanation": "Arrow methods capture `this` from the instance initialization context."
+  },
+  {
+    "section": "classes",
+    "type": "multi",
+    "text": "Private class fields (`#x`) — which are true?",
+    "options": [
+      {
+        "text": "They are not accessible via bracket notation",
+        "correct": true
+      },
+      {
+        "text": "They are enforced at runtime (not just a convention)",
+        "correct": true
+      },
+      { "text": "They appear in JSON.stringify by default", "correct": false },
+      {
+        "text": "They can be accessed from subclasses directly",
+        "correct": false
+      }
+    ],
+    "explanation": "Private fields are truly private, not enumerable, and inaccessible from outside/subclasses."
+  },
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "Static methods:",
+    "options": [
+      { "text": "Are called on instances by default", "correct": false },
+      { "text": "Are called on the class itself", "correct": true },
+      { "text": "Cannot access other static members", "correct": false },
+      { "text": "Cannot exist alongside instance methods", "correct": false }
+    ],
+    "explanation": "Static methods belong to the class constructor function."
+  },
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "Where are public class fields defined without `static` stored?",
+    "code_snippet": "class A { x = 1; }",
+    "options": [
+      { "text": "On A.prototype", "correct": false },
+      { "text": "On each instance", "correct": true },
+      { "text": "On the class (constructor) object", "correct": false },
+      { "text": "In a hidden WeakMap outside the instance", "correct": false }
+    ],
+    "explanation": "Public fields are initialized per-instance."
+  },
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "Getters/setters and property descriptors:",
+    "code_snippet": "class A { get x(){ return 1 } set x(v){} }",
+    "options": [
+      {
+        "text": "They create data properties with writable=true",
+        "correct": false
+      },
+      {
+        "text": "They create accessor properties with get/set functions",
+        "correct": true
+      },
+      { "text": "They are always enumerable", "correct": false },
+      { "text": "They cannot be defined on prototypes", "correct": false }
+    ],
+    "explanation": "Accessors are a distinct descriptor type."
+  },
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "What does `super` refer to inside a static method?",
+    "options": [
+      { "text": "The class's prototype", "correct": false },
+      { "text": "The parent class (constructor)", "correct": true },
+      { "text": "The instance", "correct": false },
+      { "text": "Undefined", "correct": false }
+    ],
+    "explanation": "In static context, super refers to the parent constructor."
+  },
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "Static initialization blocks (ES2022) are used for:",
+    "options": [
+      { "text": "Per-instance initialization logic", "correct": false },
+      { "text": "One-time class-level initialization logic", "correct": true },
+      { "text": "Defining private methods", "correct": false },
+      { "text": "Creating new prototypes", "correct": false }
+    ],
+    "explanation": "Static blocks run once when the class is evaluated."
+  },
+  {
+    "section": "classes",
+    "type": "single",
+    "text": "What happens if you forget to call `super()` in a derived constructor?",
+    "options": [
+      { "text": "Nothing special; `this` is auto-bound", "correct": false },
+      { "text": "Accessing `this` throws a ReferenceError", "correct": true },
+      {
+        "text": "The parent constructor is called implicitly",
+        "correct": false
+      },
+      { "text": "Only private fields fail to initialize", "correct": false }
+    ],
+    "explanation": "Derived constructors must call super before using this."
+  },
+
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "Which Array method transforms each element and returns a new array?",
+    "options": [
+      { "text": "forEach", "correct": false },
+      { "text": "map", "correct": true },
+      { "text": "reduce", "correct": false },
+      { "text": "some", "correct": false }
+    ],
+    "explanation": "map returns a new transformed array."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "What is the default depth for Array.prototype.flat()?",
+    "options": [
+      { "text": "Infinity", "correct": false },
+      { "text": "2", "correct": false },
+      { "text": "1", "correct": true },
+      { "text": "0", "correct": false }
+    ],
+    "explanation": "flat() defaults to depth 1."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "What does `['a','b','c'].at(-1)` return?",
+    "options": [
+      { "text": "undefined", "correct": false },
+      { "text": "'c'", "correct": true },
+      { "text": "'a'", "correct": false },
+      { "text": "Throws RangeError", "correct": false }
+    ],
+    "explanation": "at supports negative indices from the end."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "Map vs Object for keys:",
+    "options": [
+      {
+        "text": "Object keys can be any value including objects and functions",
+        "correct": false
+      },
+      {
+        "text": "Map keys can be any value including objects and functions",
+        "correct": true
+      },
+      { "text": "Map coerces keys to strings", "correct": false },
+      {
+        "text": "Objects preserve insertion order of keys strictly",
+        "correct": false
+      }
+    ],
+    "explanation": "Map supports arbitrary key types; Objects coerce to strings/symbols."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "Set semantics for NaN:",
+    "options": [
+      {
+        "text": "Set treats NaN values as distinct (NaN !== NaN)",
+        "correct": false
+      },
+      {
+        "text": "Set considers NaN equal to NaN and stores one entry",
+        "correct": true
+      },
+      { "text": "Set throws on NaN", "correct": false },
+      { "text": "Set converts NaN to 0", "correct": false }
+    ],
+    "explanation": "Set uses SameValueZero, so NaN equals NaN."
+  },
+  {
+    "section": "builtins",
+    "type": "multi",
+    "text": "WeakMap — pick all correct statements:",
+    "options": [
+      { "text": "Only objects can be keys", "correct": true },
+      { "text": "Keys are held weakly, allowing GC", "correct": true },
+      { "text": "It is iterable", "correct": false },
+      { "text": "You can inspect its size directly", "correct": false }
+    ],
+    "explanation": "WeakMap is not enumerable/iterable; size not available; keys must be objects."
+  },
+  {
+    "section": "builtins",
+    "type": "multi",
+    "text": "Pick true comparisons for Promise combinators:",
+    "options": [
+      {
+        "text": "Promise.all rejects fast on the first rejection",
+        "correct": true
+      },
+      {
+        "text": "Promise.allSettled never rejects; it waits for all",
+        "correct": true
+      },
+      {
+        "text": "Promise.race resolves only when all resolve",
+        "correct": false
+      },
+      {
+        "text": "Promise.any resolves on the first fulfillment and rejects if all reject",
+        "correct": true
+      }
+    ],
+    "explanation": "race settles on the first settlement (resolve or reject); any fulfills on first success."
+  },
+  {
+    "section": "builtins",
+    "type": "multi",
+    "text": "String slicing APIs — which statements are true?",
+    "options": [
+      {
+        "text": "String#slice(start,end) supports negative indices",
+        "correct": true
+      },
+      {
+        "text": "String#substring swaps arguments if start > end",
+        "correct": true
+      },
+      {
+        "text": "String#substr is standardized and preferred",
+        "correct": false
+      },
+      { "text": "All of them mutate the string", "correct": false }
+    ],
+    "explanation": "Strings are immutable; substring swaps args; slice allows negatives; substr is legacy."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "Number.isNaN vs isNaN(x) — which is true?",
+    "options": [
+      { "text": "Both coerce non-numbers before testing", "correct": false },
+      {
+        "text": "Number.isNaN checks without coercion; isNaN coerces",
+        "correct": true
+      },
+      { "text": "Number.isNaN is deprecated", "correct": false },
+      { "text": "isNaN never returns true", "correct": false }
+    ],
+    "explanation": "Number.isNaN is strict; global isNaN coerces."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "What does Date.now() return?",
+    "options": [
+      { "text": "Seconds since Unix epoch (integer)", "correct": false },
+      { "text": "Milliseconds since Unix epoch (integer)", "correct": true },
+      { "text": "A Date object", "correct": false },
+      { "text": "ISO timestamp string", "correct": false }
+    ],
+    "explanation": "It returns epoch milliseconds."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "Reflect vs Object — which is correct?",
+    "options": [
+      {
+        "text": "Reflect provides some Object.* operations as functions that return status instead of throwing",
+        "correct": true
+      },
+      {
+        "text": "Reflect is a constructor for reflection objects",
+        "correct": false
+      },
+      {
+        "text": "Reflect has no relation to property operations",
+        "correct": false
+      },
+      { "text": "Reflect is deprecated", "correct": false }
+    ],
+    "explanation": "E.g., Reflect.defineProperty returns a boolean instead of throwing."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "What does JSON.parse's reviver allow you to do?",
+    "options": [
+      { "text": "Validate JSON before parsing", "correct": false },
+      {
+        "text": "Transform values during parse (e.g., revive dates)",
+        "correct": true
+      },
+      { "text": "Parse comments in JSON", "correct": false },
+      { "text": "Parse circular references", "correct": false }
+    ],
+    "explanation": "Reviver can convert raw values as they are parsed."
+  },
+  {
+    "section": "builtins",
+    "type": "multi",
+    "text": "Array#some and Array#every — pick all correct statements:",
+    "options": [
+      {
+        "text": "some stops at the first truthy predicate result",
+        "correct": true
+      },
+      {
+        "text": "every stops at the first falsy predicate result",
+        "correct": true
+      },
+      { "text": "both always visit every element", "correct": false },
+      { "text": "both ignore empty slots in sparse arrays", "correct": true }
+    ],
+    "explanation": "Both short-circuit and skip holes (no callback invocation for empty slots)."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "Iteration order in Map:",
+    "options": [
+      { "text": "Sorted by key (ascending)", "correct": false },
+      { "text": "Insertion order", "correct": true },
+      { "text": "Undefined order", "correct": false },
+      { "text": "Sorted by typeof key", "correct": false }
+    ],
+    "explanation": "Map preserves insertion order."
+  },
+  {
+    "section": "builtins",
+    "type": "single",
+    "text": "Object.fromEntries([['a',1],['b',2]]) produces:",
+    "options": [
+      { "text": "{ a: 1, b: 2 }", "correct": true },
+      { "text": "[['a',1],['b',2]]", "correct": false },
+      { "text": "Map { 'a' => 1, 'b' => 2 }", "correct": false },
+      { "text": "Throws TypeError", "correct": false }
+    ],
+    "explanation": "It inverts entries back to a plain object."
+  },
+
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "What is the output?",
+    "code_snippet": "function make(){\n  let x = 1;\n  return function(){ x++; return x; }\n}\nconst f = make();\nconsole.log(f(), f());",
+    "options": [
+      { "text": "1 1", "correct": false },
+      { "text": "2 3", "correct": true },
+      { "text": "2 2", "correct": false },
+      { "text": "undefined undefined", "correct": false }
+    ],
+    "explanation": "Closure over x increments across calls."
+  },
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "IIFE scoping: what is printed?",
+    "code_snippet": "(function(){ var x = 1; })();\nconsole.log(typeof x);",
+    "options": [
+      { "text": "\"number\"", "correct": false },
+      { "text": "\"undefined\"", "correct": true },
+      { "text": "\"object\"", "correct": false },
+      { "text": "ReferenceError", "correct": false }
+    ],
+    "explanation": "var is function-scoped; outside the IIFE it's not defined (typeof -> 'undefined')."
+  },
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "Generators: what is logged?",
+    "code_snippet": "function* g(){ yield 1; return 2; }\nconst it = g();\nconsole.log(it.next(), it.next(), it.next());",
+    "options": [
+      {
+        "text": "{value:1,done:false} {value:2,done:true} {value:undefined,done:true}",
+        "correct": true
+      },
+      { "text": "{1,false} {2,true} {undefined,true}", "correct": false },
+      {
+        "text": "{value:1,done:false} throws on second next",
+        "correct": false
+      },
+      { "text": "All undefined", "correct": false }
+    ],
+    "explanation": "After return, generator is done."
+  },
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "Async/await scheduling: what is the order?",
+    "code_snippet": "console.log('A');\nPromise.resolve().then(() => console.log('B'));\n(async()=>{ console.log('C'); await null; console.log('D'); })();\nconsole.log('E');",
+    "options": [
+      { "text": "A C E B D", "correct": true },
+      { "text": "A E C B D", "correct": false },
+      { "text": "A C B E D", "correct": false },
+      { "text": "C A E B D", "correct": false }
+    ],
+    "explanation": "await null yields a microtask; 'B' (then) runs before 'D'."
+  },
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "Currying: what does `add(1)(2)` return?",
+    "code_snippet": "const add = a => b => a + b;\nadd(1)(2);",
+    "options": [
+      { "text": "NaN", "correct": false },
+      { "text": "3", "correct": true },
+      { "text": "undefined", "correct": false },
+      { "text": "A function", "correct": false }
+    ],
+    "explanation": "Returns 3."
+  },
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "What is the difference between rest parameters and `arguments`?",
+    "options": [
+      {
+        "text": "Rest is a real array; arguments is array-like",
+        "correct": true
+      },
+      { "text": "arguments works in arrow functions", "correct": false },
+      { "text": "Rest excludes explicitly named params", "correct": false },
+      { "text": "arguments excludes default parameters", "correct": false }
+    ],
+    "explanation": "Rest (`...args`) is an array and works in arrows; `arguments` is array-like and not in arrows."
+  },
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "Default parameters are evaluated:",
+    "code_snippet": "function f(a, b = a+1){ return b }\nf(2)",
+    "options": [
+      { "text": "At function definition time", "correct": false },
+      { "text": "At call time, left-to-right", "correct": true },
+      { "text": "After the function returns", "correct": false },
+      { "text": "Only if arguments.length === 0", "correct": false }
+    ],
+    "explanation": "Defaults are evaluated at call time; b sees `a`'s supplied value."
+  },
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "bind preset arguments example: what is logged?",
+    "code_snippet": "function mul(a,b){ return a*b }\nconst dbl = mul.bind(null, 2);\nconsole.log(dbl(5));",
+    "options": [
+      { "text": "2", "correct": false },
+      { "text": "10", "correct": true },
+      { "text": "NaN", "correct": false },
+      { "text": "TypeError", "correct": false }
+    ],
+    "explanation": "First arg preset to 2; 2*5=10."
+  },
+  {
+    "section": "advfunc",
+    "type": "multi",
+    "text": "Pick the true statements about `async` functions:",
+    "options": [
+      { "text": "They always return a Promise", "correct": true },
+      {
+        "text": "Throwing inside async causes returned promise to reject",
+        "correct": true
+      },
+      { "text": "Awaiting a non-promise value throws", "correct": false },
+      { "text": "They execute entirely synchronously", "correct": false }
+    ],
+    "explanation": "Await coerces non-promises; async returns Promise; throw -> rejection."
+  },
+  {
+    "section": "advfunc",
+    "type": "single",
+    "text": "Debounce vs throttle — which describes debounce?",
+    "options": [
+      {
+        "text": "Ensures a function runs at most once per interval",
+        "correct": false
+      },
+      {
+        "text": "Delays a function until a pause of N ms after the last call",
+        "correct": true
+      },
+      { "text": "Runs immediately and then blocks for N ms", "correct": false },
+      { "text": "Schedules in requestAnimationFrame only", "correct": false }
+    ],
+    "explanation": "Debounce waits for inactivity; throttle enforces a max rate."
+  }
+]
