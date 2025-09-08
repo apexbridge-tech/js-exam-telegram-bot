@@ -353,3 +353,58 @@ function get<T>(sql: string, params: unknown[] = []): Promise<T | undefined> {
 function toSql(d: Date): string {
   return d.toISOString().replace("T", " ").slice(0, 19);
 }
+
+export async function clearAnswersForQuestion(
+  sessionId: string,
+  questionId: number
+): Promise<void> {
+  await run(
+    `DELETE FROM session_answers WHERE session_id=? AND question_id=?`,
+    [sessionId, questionId]
+  );
+}
+
+export async function clearAllAnswers(sessionId: string): Promise<void> {
+  await run(`DELETE FROM session_answers WHERE session_id=?`, [sessionId]);
+}
+
+export async function clearAllFlags(sessionId: string): Promise<void> {
+  await run(`UPDATE session_questions SET flagged=0 WHERE session_id=?`, [
+    sessionId,
+  ]);
+}
+
+export async function abandonSession(sessionId: string): Promise<void> {
+  await run(
+    `UPDATE exam_sessions
+     SET status='expired', finished_at=datetime('now')
+     WHERE id=? AND status='active'`,
+    [sessionId]
+  );
+}
+
+/**
+ * Restart a practice session:
+ * - Only allowed if the session is practice.
+ * - Marks current as 'expired', creates a new practice session for the same user/exam.
+ * - Returns the new session row.
+ */
+export async function restartPracticeSession(
+  sessionId: string
+): Promise<ActiveSession> {
+  const s = await getSessionById(sessionId);
+  if (!s) throw new Error("Session not found");
+  if (s.mode !== "practice")
+    throw new Error("Restart allowed only in practice mode");
+
+  await run(
+    `UPDATE exam_sessions
+     SET status='expired', finished_at=datetime('now')
+     WHERE id=? AND status='active'`,
+    [sessionId]
+  );
+
+  // Reuse same user & exam
+  const next = await createExamSession(s.user_id, s.exam_id, "practice");
+  return next;
+}

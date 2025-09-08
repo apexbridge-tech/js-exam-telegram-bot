@@ -65,6 +65,10 @@ export function navControls(opts: {
     text: "✅ Submit",
     callback_data: `submit:${opts.sessionId}`,
   };
+  const resetBtn: TelegramBot.InlineKeyboardButton = {
+    text: "🧹 Reset",
+    callback_data: `reset:${opts.sessionId}`,
+  };
 
   const row1: TelegramBot.InlineKeyboardButton[] = [left];
   if (opts.showFlag) row1.push(flagBtn);
@@ -73,7 +77,9 @@ export function navControls(opts: {
   const row2: TelegramBot.InlineKeyboardButton[] = [navBtn, progBtn];
   if (opts.showSubmit) row2.push(submitBtn);
 
-  return { inline_keyboard: [row1, row2] };
+  const row3: TelegramBot.InlineKeyboardButton[] = [resetBtn];
+
+  return { inline_keyboard: [row1, row2, row3] };
 }
 
 export function navigatorKeyboard(
@@ -105,4 +111,25 @@ export function navigatorKeyboard(
 
 function trim(s: string, n: number): string {
   return s.length <= n ? s : s.slice(0, n - 1) + "…";
+}
+
+export function extrasControls(
+  sessionId: string,
+  questionId: number,
+  qIndex: number,
+  allowReveal: boolean,
+  allowLearn: boolean
+): TelegramBot.InlineKeyboardMarkup {
+  const row: TelegramBot.InlineKeyboardButton[] = [];
+  if (allowReveal)
+    row.push({
+      text: "👀 Reveal",
+      callback_data: `reveal:${sessionId}:${questionId}:${qIndex}`,
+    });
+  if (allowLearn)
+    row.push({
+      text: "📖 Learn more",
+      callback_data: `learn:${sessionId}:${questionId}:${qIndex}`,
+    });
+  return { inline_keyboard: [row] };
 }

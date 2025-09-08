@@ -12,7 +12,7 @@ async function main(): Promise<void> {
   await seedBaseExam();
   await ensureQuestionsLoaded(50);
 
-  const bot = createBot(config.BOT_TOKEN);
+  const bot = await createBot(config.BOT_TOKEN);
   startScheduler(bot, PASS_PERCENT);
 
   bot.on("polling_error", (err) =>

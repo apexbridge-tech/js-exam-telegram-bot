@@ -301,4 +301,31 @@ export function registerCommands(bot: TelegramBot): void {
       await showQuestion(bot, msg.chat.id, sess.id, 1);
     }
   );
+
+  bot.onText(/^\/reset\b/i, async (msg: TelegramBot.Message): Promise<void> => {
+    const tgId: number = msg.from?.id ?? 0;
+    const userId: number = await upsertUser({
+      tg_user_id: tgId,
+      first_name: msg.from?.first_name ?? null,
+      last_name: msg.from?.last_name ?? null,
+      username: msg.from?.username ?? null,
+    });
+
+    const sess = await getActiveSessionForUser(userId);
+    if (!sess) {
+      await bot.sendMessage(
+        msg.chat.id,
+        "No active session to reset. Use /begin_exam or /practice."
+      );
+      return;
+    }
+    // Reuse the inline button flow (same as tapping 🧹 Reset)
+    await bot.sendMessage(msg.chat.id, "Reset options:", {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: "Open reset menu 🧹", callback_data: `reset:${sess.id}` }],
+        ],
+      },
+    });
+  });
 }

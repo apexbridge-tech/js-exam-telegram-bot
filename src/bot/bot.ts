@@ -2,6 +2,7 @@ import TelegramBot from "node-telegram-bot-api";
 import { registerCommands } from "./commands.js";
 import { registerAnswerHandlers } from "./handlers/answer.handler.js";
 import { registerNavHandlers } from "./handlers/nav.handler.js";
+import { registerResetHandlers } from "./handlers/reset.handler.js";
 import { logger } from "../logger.js";
 
 export async function createBot(token: string): Promise<TelegramBot> {
@@ -23,6 +24,7 @@ export async function createBot(token: string): Promise<TelegramBot> {
   registerCommands(bot);
   registerAnswerHandlers(bot);
   registerNavHandlers(bot);
+  registerResetHandlers(bot);
 
   await bot.startPolling({ restart: true }); // start long-polling
   logger.info("Polling started.");

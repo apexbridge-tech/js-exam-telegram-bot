@@ -17,6 +17,8 @@ const QuestionSchema = z.object({
     .array(z.object({ text: z.string().min(1), correct: z.boolean() }))
     .min(2),
   explanation: z.string().optional(),
+  reference_url: z.string().url().optional(),
+  reference_title: z.string().min(3).optional(),
 });
 
 const QuestionsFileSchema = z.array(QuestionSchema).superRefine((arr, ctx) => {
@@ -83,8 +85,15 @@ export async function ensureQuestionsLoaded(minCount = 50): Promise<void> {
         // Clean answers to allow updates
         await run(`DELETE FROM answers WHERE question_id = ?`, [qid]);
         await run(
-          `UPDATE questions SET type=?, code_snippet=?, explanation=?, is_active=1 WHERE id=?`,
-          [q.type, q.code_snippet ?? null, q.explanation ?? null, qid]
+          `UPDATE questions SET type=?, code_snippet=?, explanation=?, is_active=1, reference_url=?, reference_title=? WHERE id=?`,
+          [
+            q.type,
+            q.code_snippet ?? null,
+            q.explanation ?? null,
+            q.reference_url ?? null,
+            q.reference_title ?? null,
+            qid,
+          ]
         );
       } else {
         qid = await insertQuestion(
@@ -92,7 +101,9 @@ export async function ensureQuestionsLoaded(minCount = 50): Promise<void> {
           q.type,
           q.text,
           q.code_snippet ?? null,
-          q.explanation ?? null
+          q.explanation ?? null,
+          q.reference_url ?? null,
+          q.reference_title ?? null
         );
       }
 
@@ -120,13 +131,16 @@ function insertQuestion(
   type: string,
   text: string,
   code: string | null,
-  explanation: string | null
+  explanation: string | null,
+  referenceUrl: string | null,
+  referenceTitle: string | null
 ): Promise<number> {
   const db = getDb();
   return new Promise<number>((resolve, reject) => {
     db.run(
-      `INSERT INTO questions (section, type, text, code_snippet, explanation) VALUES (?,?,?,?,?)`,
-      [section, type, text, code, explanation],
+      `INSERT INTO questions (section, type, text, code_snippet, explanation, reference_url, reference_title)
+       VALUES (?,?,?,?,?,?,?)`,
+      [section, type, text, code, explanation, referenceUrl, referenceTitle],
       function (err) {
         if (err) return reject(err);
         resolve(this.lastID as number);

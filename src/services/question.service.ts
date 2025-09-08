@@ -7,6 +7,8 @@ export interface QuestionRow {
   text: string;
   code_snippet?: string | null;
   explanation?: string | null;
+  reference_url?: string | null;
+  reference_title?: string | null;
 }
 
 export interface AnswerRow {

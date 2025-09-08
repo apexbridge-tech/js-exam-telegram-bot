@@ -21,7 +21,9 @@
         "correct": false
       }
     ],
-    "explanation": "Property access checks the object first, then follows [[Prototype]] links until found or reaching null."
+    "explanation": "Property access checks the object first, then follows [[Prototype]] links until found or reaching null.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
+    "reference_title": "MDN — Inheritance and the prototype chain"
   },
   {
     "section": "objects",
@@ -42,7 +44,9 @@
         "correct": false
       }
     ],
-    "explanation": "Object.create sets the internal [[Prototype]] of the new object to the given object."
+    "explanation": "Object.create sets the internal [[Prototype]] of the new object to the given object.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create",
+    "reference_title": "MDN — Object.create()"
   },
   {
     "section": "objects",
@@ -55,7 +59,9 @@
       { "text": "The function itself", "correct": false },
       { "text": "A new empty object", "correct": false }
     ],
-    "explanation": "In strict mode, `this` is `undefined` for bare function calls."
+    "explanation": "In strict mode, `this` is `undefined` for bare function calls.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
+    "reference_title": "MDN — this (strict mode behavior)"
   },
   {
     "section": "objects",
@@ -67,7 +73,9 @@
       { "text": "`writable` defaults to true", "correct": false },
       { "text": "`value` defaults to undefined", "correct": true }
     ],
-    "explanation": "Undefined attributes default to: configurable=false, enumerable=false, writable=false, value=undefined."
+    "explanation": "Undefined attributes default to: configurable=false, enumerable=false, writable=false, value=undefined.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty",
+    "reference_title": "MDN — Object.defineProperty()"
   },
   {
     "section": "objects",
@@ -91,7 +99,9 @@
         "correct": false
       }
     ],
-    "explanation": "freeze = non-extensible + non-configurable + non-writable; seal = non-extensible + configurable=false; preventExtensions = non-extensible."
+    "explanation": "freeze = non-extensible + non-configurable + non-writable; seal = non-extensible + configurable=false; preventExtensions = non-extensible.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze",
+    "reference_title": "MDN — Object.freeze() (see also seal/preventExtensions)"
   },
   {
     "section": "objects",
@@ -106,7 +116,9 @@
       { "text": "Copies only primitives", "correct": false },
       { "text": "Recursively freezes nested objects", "correct": false }
     ],
-    "explanation": "Object.assign is shallow."
+    "explanation": "Object.assign is shallow.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign",
+    "reference_title": "MDN — Object.assign()"
   },
   {
     "section": "objects",
@@ -118,7 +130,9 @@
       { "text": "obj[key] !== undefined", "correct": false },
       { "text": "Object.getPrototypeOf(obj) === null", "correct": false }
     ],
-    "explanation": "`in` sees prototype properties; hasOwnProperty checks own props."
+    "explanation": "`in` sees prototype properties; hasOwnProperty checks own props.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty",
+    "reference_title": "MDN — Object.prototype.hasOwnProperty()"
   },
   {
     "section": "objects",
@@ -134,7 +148,9 @@
       { "text": "Throws TypeError", "correct": false },
       { "text": "Shadows a with undefined", "correct": false }
     ],
-    "explanation": "delete only affects own props; inherited remains."
+    "explanation": "delete only affects own props; inherited remains.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete",
+    "reference_title": "MDN — delete operator"
   },
   {
     "section": "objects",
@@ -146,7 +162,9 @@
       { "text": "for...in", "correct": true },
       { "text": "Object.values(obj)", "correct": false }
     ],
-    "explanation": "for...in visits own + inherited enumerable keys."
+    "explanation": "for...in visits own + inherited enumerable keys.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in",
+    "reference_title": "MDN — for...in"
   },
   {
     "section": "objects",
@@ -162,7 +180,9 @@
       { "text": "All keys sorted ascending", "correct": false },
       { "text": "All keys sorted descending", "correct": false }
     ],
-    "explanation": "Property enumeration order: numeric indices ascending, then other keys in insertion order."
+    "explanation": "Property enumeration order: numeric indices ascending, then other keys in insertion order.",
+    "reference_url": "https://tc39.es/ecma262/#sec-ordinaryownpropertykeys",
+    "reference_title": "ECMAScript — OrdinaryOwnPropertyKeys (property order rules)"
   },
   {
     "section": "objects",
@@ -175,7 +195,9 @@
       { "text": "ReferenceError", "correct": false },
       { "text": "null", "correct": false }
     ],
-    "explanation": "Renaming + default assigns 5 to b."
+    "explanation": "Renaming + default assigns 5 to b.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+    "reference_title": "MDN — Destructuring assignment"
   },
   {
     "section": "objects",
@@ -188,7 +210,9 @@
       { "text": "Throws SyntaxError", "correct": false },
       { "text": "Creates symbol property", "correct": false }
     ],
-    "explanation": "The expression inside [] is evaluated to the key."
+    "explanation": "The expression inside [] is evaluated to the key.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#computed_property_names",
+    "reference_title": "MDN — Object initializer: Computed property names"
   },
   {
     "section": "objects",
@@ -203,7 +227,9 @@
       { "text": "Reflect.ownKeys() includes symbol keys", "correct": true },
       { "text": "for...in iterates symbol keys by default", "correct": false }
     ],
-    "explanation": "JSON.stringify and Object.keys omit symbols; Reflect.ownKeys returns both string and symbol keys."
+    "explanation": "JSON.stringify and Object.keys omit symbols; Reflect.ownKeys returns both string and symbol keys.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify",
+    "reference_title": "MDN — JSON.stringify() (symbol-keyed properties are ignored)"
   },
   {
     "section": "objects",
@@ -215,7 +241,9 @@
       { "text": "An arrow function with lexical this", "correct": false },
       { "text": "A proxy to call/apply", "correct": false }
     ],
-    "explanation": "bind returns a new callable with preset this/args."
+    "explanation": "bind returns a new callable with preset this/args.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+    "reference_title": "MDN — Function.prototype.bind()"
   },
   {
     "section": "objects",
@@ -227,7 +255,9 @@
       { "text": "Flattens cycles to arrays", "correct": false },
       { "text": "Silently drops cyclic properties", "correct": false }
     ],
-    "explanation": "Circular structure -> TypeError unless a custom replacer breaks cycles."
+    "explanation": "Circular structure -> TypeError unless a custom replacer breaks cycles.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify",
+    "reference_title": "MDN — JSON.stringify() (circular structures)"
   },
 
   {
@@ -241,7 +271,9 @@
       { "text": "Bind `this` using `.bind(this)`", "correct": false },
       { "text": "Define a static block", "correct": false }
     ],
-    "explanation": "In derived classes, `super()` must run before using `this`."
+    "explanation": "In derived classes, `super()` must run before using `this`.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+    "reference_title": "MDN — super"
   },
   {
     "section": "classes",
@@ -262,7 +294,9 @@
       },
       { "text": "Throws unless method is static", "correct": false }
     ],
-    "explanation": "`super.method()` resolves on prototype chain; `this` remains the current instance."
+    "explanation": "`super.method()` resolves on prototype chain; `this` remains the current instance.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+    "reference_title": "MDN — super"
   },
   {
     "section": "classes",
@@ -277,7 +311,9 @@
       { "text": "They must be defined as static", "correct": false },
       { "text": "They are not allowed in classes", "correct": false }
     ],
-    "explanation": "Arrow methods capture `this` from the instance initialization context."
+    "explanation": "Arrow methods capture `this` from the instance initialization context.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+    "reference_title": "MDN — Arrow functions (this binding)"
   },
   {
     "section": "classes",
@@ -298,7 +334,9 @@
         "correct": false
       }
     ],
-    "explanation": "Private fields are truly private, not enumerable, and inaccessible from outside/subclasses."
+    "explanation": "Private fields are truly private, not enumerable, and inaccessible from outside/subclasses.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+    "reference_title": "MDN — Private class fields"
   },
   {
     "section": "classes",
@@ -310,7 +348,9 @@
       { "text": "Cannot access other static members", "correct": false },
       { "text": "Cannot exist alongside instance methods", "correct": false }
     ],
-    "explanation": "Static methods belong to the class constructor function."
+    "explanation": "Static methods belong to the class constructor function.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static",
+    "reference_title": "MDN — static (class static methods)"
   },
   {
     "section": "classes",
@@ -323,7 +363,9 @@
       { "text": "On the class (constructor) object", "correct": false },
       { "text": "In a hidden WeakMap outside the instance", "correct": false }
     ],
-    "explanation": "Public fields are initialized per-instance."
+    "explanation": "Public fields are initialized per-instance.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields",
+    "reference_title": "MDN — Public class fields"
   },
   {
     "section": "classes",
@@ -342,7 +384,9 @@
       { "text": "They are always enumerable", "correct": false },
       { "text": "They cannot be defined on prototypes", "correct": false }
     ],
-    "explanation": "Accessors are a distinct descriptor type."
+    "explanation": "Accessors are a distinct descriptor type.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get",
+    "reference_title": "MDN — get (accessor properties)"
   },
   {
     "section": "classes",
@@ -354,7 +398,9 @@
       { "text": "The instance", "correct": false },
       { "text": "Undefined", "correct": false }
     ],
-    "explanation": "In static context, super refers to the parent constructor."
+    "explanation": "In static context, super refers to the parent constructor.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+    "reference_title": "MDN — super"
   },
   {
     "section": "classes",
@@ -366,7 +412,9 @@
       { "text": "Defining private methods", "correct": false },
       { "text": "Creating new prototypes", "correct": false }
     ],
-    "explanation": "Static blocks run once when the class is evaluated."
+    "explanation": "Static blocks run once when the class is evaluated.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Static_initialization_blocks",
+    "reference_title": "MDN — Static initialization blocks"
   },
   {
     "section": "classes",
@@ -381,7 +429,9 @@
       },
       { "text": "Only private fields fail to initialize", "correct": false }
     ],
-    "explanation": "Derived constructors must call super before using this."
+    "explanation": "Derived constructors must call super before using this.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+    "reference_title": "MDN — super (derived constructors)"
   },
 
   {
@@ -394,7 +444,9 @@
       { "text": "reduce", "correct": false },
       { "text": "some", "correct": false }
     ],
-    "explanation": "map returns a new transformed array."
+    "explanation": "map returns a new transformed array.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map",
+    "reference_title": "MDN — Array.prototype.map()"
   },
   {
     "section": "builtins",
@@ -406,7 +458,9 @@
       { "text": "1", "correct": true },
       { "text": "0", "correct": false }
     ],
-    "explanation": "flat() defaults to depth 1."
+    "explanation": "flat() defaults to depth 1.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat",
+    "reference_title": "MDN — Array.prototype.flat()"
   },
   {
     "section": "builtins",
@@ -418,7 +472,9 @@
       { "text": "'a'", "correct": false },
       { "text": "Throws RangeError", "correct": false }
     ],
-    "explanation": "at supports negative indices from the end."
+    "explanation": "at supports negative indices from the end.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at",
+    "reference_title": "MDN — Array.prototype.at()"
   },
   {
     "section": "builtins",
@@ -439,7 +495,9 @@
         "correct": false
       }
     ],
-    "explanation": "Map supports arbitrary key types; Objects coerce to strings/symbols."
+    "explanation": "Map supports arbitrary key types; Objects coerce to strings/symbols.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "reference_title": "MDN — Map"
   },
   {
     "section": "builtins",
@@ -457,7 +515,9 @@
       { "text": "Set throws on NaN", "correct": false },
       { "text": "Set converts NaN to 0", "correct": false }
     ],
-    "explanation": "Set uses SameValueZero, so NaN equals NaN."
+    "explanation": "Set uses SameValueZero, so NaN equals NaN.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "reference_title": "MDN — Set"
   },
   {
     "section": "builtins",
@@ -469,7 +529,9 @@
       { "text": "It is iterable", "correct": false },
       { "text": "You can inspect its size directly", "correct": false }
     ],
-    "explanation": "WeakMap is not enumerable/iterable; size not available; keys must be objects."
+    "explanation": "WeakMap is not enumerable/iterable; size not available; keys must be objects.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "reference_title": "MDN — WeakMap"
   },
   {
     "section": "builtins",
@@ -493,7 +555,9 @@
         "correct": true
       }
     ],
-    "explanation": "race settles on the first settlement (resolve or reject); any fulfills on first success."
+    "explanation": "race settles on the first settlement (resolve or reject); any fulfills on first success.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "reference_title": "MDN — Promise (static combinators)"
   },
   {
     "section": "builtins",
@@ -514,7 +578,9 @@
       },
       { "text": "All of them mutate the string", "correct": false }
     ],
-    "explanation": "Strings are immutable; substring swaps args; slice allows negatives; substr is legacy."
+    "explanation": "Strings are immutable; substring swaps args; slice allows negatives; substr is legacy.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "reference_title": "MDN — String (slice/substring/substr)"
   },
   {
     "section": "builtins",
@@ -529,7 +595,9 @@
       { "text": "Number.isNaN is deprecated", "correct": false },
       { "text": "isNaN never returns true", "correct": false }
     ],
-    "explanation": "Number.isNaN is strict; global isNaN coerces."
+    "explanation": "Number.isNaN is strict; global isNaN coerces.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN",
+    "reference_title": "MDN — Number.isNaN()"
   },
   {
     "section": "builtins",
@@ -541,7 +609,9 @@
       { "text": "A Date object", "correct": false },
       { "text": "ISO timestamp string", "correct": false }
     ],
-    "explanation": "It returns epoch milliseconds."
+    "explanation": "It returns epoch milliseconds.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now",
+    "reference_title": "MDN — Date.now()"
   },
   {
     "section": "builtins",
@@ -562,7 +632,9 @@
       },
       { "text": "Reflect is deprecated", "correct": false }
     ],
-    "explanation": "E.g., Reflect.defineProperty returns a boolean instead of throwing."
+    "explanation": "E.g., Reflect.defineProperty returns a boolean instead of throwing.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "reference_title": "MDN — Reflect"
   },
   {
     "section": "builtins",
@@ -577,7 +649,9 @@
       { "text": "Parse comments in JSON", "correct": false },
       { "text": "Parse circular references", "correct": false }
     ],
-    "explanation": "Reviver can convert raw values as they are parsed."
+    "explanation": "Reviver can convert raw values as they are parsed.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse",
+    "reference_title": "MDN — JSON.parse() (reviver)"
   },
   {
     "section": "builtins",
@@ -595,7 +669,9 @@
       { "text": "both always visit every element", "correct": false },
       { "text": "both ignore empty slots in sparse arrays", "correct": true }
     ],
-    "explanation": "Both short-circuit and skip holes (no callback invocation for empty slots)."
+    "explanation": "Both short-circuit and skip holes (no callback invocation for empty slots).",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some",
+    "reference_title": "MDN — Array.prototype.some()"
   },
   {
     "section": "builtins",
@@ -607,7 +683,9 @@
       { "text": "Undefined order", "correct": false },
       { "text": "Sorted by typeof key", "correct": false }
     ],
-    "explanation": "Map preserves insertion order."
+    "explanation": "Map preserves insertion order.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "reference_title": "MDN — Map (iteration order)"
   },
   {
     "section": "builtins",
@@ -619,7 +697,9 @@
       { "text": "Map { 'a' => 1, 'b' => 2 }", "correct": false },
       { "text": "Throws TypeError", "correct": false }
     ],
-    "explanation": "It inverts entries back to a plain object."
+    "explanation": "It inverts entries back to a plain object.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries",
+    "reference_title": "MDN — Object.fromEntries()"
   },
 
   {
@@ -633,7 +713,9 @@
       { "text": "2 2", "correct": false },
       { "text": "undefined undefined", "correct": false }
     ],
-    "explanation": "Closure over x increments across calls."
+    "explanation": "Closure over x increments across calls.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+    "reference_title": "MDN — Closures"
   },
   {
     "section": "advfunc",
@@ -646,7 +728,9 @@
       { "text": "\"object\"", "correct": false },
       { "text": "ReferenceError", "correct": false }
     ],
-    "explanation": "var is function-scoped; outside the IIFE it's not defined (typeof -> 'undefined')."
+    "explanation": "var is function-scoped; outside the IIFE it's not defined (typeof -> 'undefined').",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Glossary/IIFE",
+    "reference_title": "MDN — IIFE (Immediately Invoked Function Expression)"
   },
   {
     "section": "advfunc",
@@ -665,7 +749,9 @@
       },
       { "text": "All undefined", "correct": false }
     ],
-    "explanation": "After return, generator is done."
+    "explanation": "After return, generator is done.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "reference_title": "MDN — Generator"
   },
   {
     "section": "advfunc",
@@ -678,7 +764,9 @@
       { "text": "A C B E D", "correct": false },
       { "text": "C A E B D", "correct": false }
     ],
-    "explanation": "await null yields a microtask; 'B' (then) runs before 'D'."
+    "explanation": "await null yields a microtask; 'B' (then) runs before 'D'.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop",
+    "reference_title": "MDN — Event loop (microtasks & macrotasks)"
   },
   {
     "section": "advfunc",
@@ -691,7 +779,9 @@
       { "text": "undefined", "correct": false },
       { "text": "A function", "correct": false }
     ],
-    "explanation": "Returns 3."
+    "explanation": "Returns 3.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+    "reference_title": "MDN — Closures (function factories)"
   },
   {
     "section": "advfunc",
@@ -706,7 +796,9 @@
       { "text": "Rest excludes explicitly named params", "correct": false },
       { "text": "arguments excludes default parameters", "correct": false }
     ],
-    "explanation": "Rest (`...args`) is an array and works in arrows; `arguments` is array-like and not in arrows."
+    "explanation": "Rest (`...args`) is an array and works in arrows; `arguments` is array-like and not in arrows.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters",
+    "reference_title": "MDN — Rest parameters"
   },
   {
     "section": "advfunc",
@@ -719,7 +811,9 @@
       { "text": "After the function returns", "correct": false },
       { "text": "Only if arguments.length === 0", "correct": false }
     ],
-    "explanation": "Defaults are evaluated at call time; b sees `a`'s supplied value."
+    "explanation": "Defaults are evaluated at call time; b sees `a`'s supplied value.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters",
+    "reference_title": "MDN — Default parameters"
   },
   {
     "section": "advfunc",
@@ -732,7 +826,9 @@
       { "text": "NaN", "correct": false },
       { "text": "TypeError", "correct": false }
     ],
-    "explanation": "First arg preset to 2; 2*5=10."
+    "explanation": "First arg preset to 2; 2*5=10.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind",
+    "reference_title": "MDN — Function.prototype.bind()"
   },
   {
     "section": "advfunc",
@@ -747,7 +843,9 @@
       { "text": "Awaiting a non-promise value throws", "correct": false },
       { "text": "They execute entirely synchronously", "correct": false }
     ],
-    "explanation": "Await coerces non-promises; async returns Promise; throw -> rejection."
+    "explanation": "Await coerces non-promises; async returns Promise; throw -> rejection.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+    "reference_title": "MDN — async function"
   },
   {
     "section": "advfunc",
@@ -765,6 +863,8 @@
       { "text": "Runs immediately and then blocks for N ms", "correct": false },
       { "text": "Schedules in requestAnimationFrame only", "correct": false }
     ],
-    "explanation": "Debounce waits for inactivity; throttle enforces a max rate."
+    "explanation": "Debounce waits for inactivity; throttle enforces a max rate.",
+    "reference_url": "https://developer.mozilla.org/en-US/docs/Glossary/Debounce",
+    "reference_title": "MDN — Debounce (Glossary)"
   }
 ]

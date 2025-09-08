@@ -27,7 +27,37 @@ export async function initDb(dbFile: string): Promise<sqlite3.Database> {
     logger.info(`SQLite ready at ${dbFile} (schema already present)`);
   }
 
+  await ensureQuestionReferenceColumns();
+
   return db;
+}
+
+async function ensureQuestionReferenceColumns(): Promise<void> {
+  const cols = await tableColumns("questions");
+  const names = new Set(cols.map((c) => c.name));
+  const ops: string[] = [];
+  if (!names.has("reference_url"))
+    ops.push(`ALTER TABLE questions ADD COLUMN reference_url TEXT`);
+  if (!names.has("reference_title"))
+    ops.push(`ALTER TABLE questions ADD COLUMN reference_title TEXT`);
+  for (const sql of ops) await exec(sql);
+}
+
+interface TableInfoRow {
+  cid: number;
+  name: string;
+  type: string;
+  notnull: number;
+  dflt_value: string | null;
+  pk: number;
+}
+function tableColumns(name: string): Promise<TableInfoRow[]> {
+  return new Promise((resolve, reject) => {
+    if (!db) return reject(new Error("DB not initialized"));
+    db.all(`PRAGMA table_info(${name})`, [], (err, rows: TableInfoRow[]) =>
+      err ? reject(err) : resolve(rows)
+    );
+  });
 }
 
 export function getDb(): sqlite3.Database {
