@@ -54,3 +54,26 @@ export async function upsertUser(u: TgUserLite): Promise<number> {
     );
   });
 }
+
+export interface UserRow {
+  id: number;
+  tg_user_id: number;
+  first_name: string | null;
+  last_name: string | null;
+  username: string | null;
+  created_at: string;
+  last_seen_at: string;
+  last_failed_at: string | null;
+}
+
+export async function getUserById(id: number): Promise<UserRow | undefined> {
+  const db = getDb();
+  return new Promise((resolve, reject) => {
+    db.get(
+      `SELECT id, tg_user_id, first_name, last_name, username, created_at, last_seen_at, last_failed_at FROM users WHERE id=? LIMIT 1`,
+      [id],
+      (err: Error | null, row: UserRow | undefined): void =>
+        err ? reject(err) : resolve(row)
+    );
+  });
+}
