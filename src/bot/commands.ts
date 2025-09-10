@@ -77,6 +77,11 @@ export async function registerCommands(
   commandFactory.registerCommand(
     await import("./commands/resetCommand.js").then((m) => m.ResetCommand)
   );
+  commandFactory.registerCommand(
+    await import("./commands/adminStatsCommand.js").then(
+      (m) => m.AdminStatsCommand
+    )
+  );
 
   commandFactory.submit();
 }

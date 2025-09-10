@@ -3,6 +3,7 @@ import { SessionService } from "./session.service.js";
 import { QuestionService } from "./question.service.js";
 import { ReportService } from "./report.service.js";
 import { BotService } from "./bot.service.js";
+import { AdminStatsService } from "../domain/adminstats/adminStatsService.js";
 
 export interface Services {
   userService: UserService;
@@ -10,4 +11,5 @@ export interface Services {
   questionService: QuestionService;
   reportService: ReportService;
   botService: BotService;
+  adminStatsService: AdminStatsService;
 }

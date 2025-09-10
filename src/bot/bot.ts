@@ -11,6 +11,7 @@ import { questionService } from "../services/question.service.js";
 import { reportService } from "../services/report.service.js";
 import { sessionService } from "../services/session.service.js";
 import { userService } from "../services/user.service.js";
+import { createAdminStatsService } from "../domain/adminstats/adminStatsServiceImpl.js";
 
 export async function createBot(
   token: string
@@ -35,6 +36,7 @@ export async function createBot(
     sessionService,
     reportService,
     botService: createBotService(bot),
+    adminStatsService: createAdminStatsService(),
   };
 
   const answerProcessors: Array<BaseAnswerProcessor> = [
