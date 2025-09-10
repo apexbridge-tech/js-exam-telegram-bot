@@ -4,6 +4,13 @@ import { registerAnswerHandlers } from "./handlers/answer.handler.js";
 import { registerNavHandlers } from "./handlers/nav.handler.js";
 import { registerResetHandlers } from "./handlers/reset.handler.js";
 import { logger } from "../logger.js";
+import { Services } from "../services/services.js";
+import { questionService } from "../services/question.service.js";
+import { reportService } from "../services/report.service.js";
+import { sessionService } from "../services/session.service.js";
+import { userService } from "../services/user.service.js";
+import { createBotService } from "../services/bot.service.js";
+import { BaseAnswerProcessor } from "./handlers/processors/baseAnswerProcessor.js";
 
 export async function createBot(token: string): Promise<TelegramBot> {
   const bot = new TelegramBot(token, {
@@ -21,8 +28,34 @@ export async function createBot(token: string): Promise<TelegramBot> {
   await bot.deleteWebHook(); // ⬅️ no options (equivalent to not dropping pending updates)
   // Alternatively: await bot.deleteWebHook({ drop_pending_updates: false });
 
-  registerCommands(bot);
-  registerAnswerHandlers(bot);
+  const services: Services = {
+    userService,
+    questionService,
+    sessionService,
+    reportService,
+    botService: createBotService(bot),
+  };
+
+  const answerProcessors: Array<BaseAnswerProcessor> = [
+    new (
+      await import("./handlers/processors/answerProcessor.js")
+    ).AnswerProcessor(services.botService),
+    new (
+      await import("./handlers/processors/toggleProcessor.js")
+    ).ToggleProcessor(services.botService),
+    new (
+      await import("./handlers/processors/revealProcessor.js")
+    ).RevealProcessor(services.botService),
+    new (
+      await import("./handlers/processors/explainProcessor.js")
+    ).ExplainProcessor(services.botService),
+    new (
+      await import("./handlers/processors/learnProcessor.js")
+    ).LearnProcessor(services.botService),
+  ];
+
+  registerCommands(services);
+  registerAnswerHandlers(bot, answerProcessors);
   registerNavHandlers(bot);
   registerResetHandlers(bot);
 

@@ -188,7 +188,7 @@ export function registerResetHandlers(bot: TelegramBot): void {
 
 /* ---------- local keyboards ---------- */
 
-function resetMenuKb(
+export function resetMenuKb(
   sessionId: string,
   isPractice: boolean,
   isExam: boolean

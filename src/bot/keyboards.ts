@@ -1,19 +1,27 @@
 import type { AnswerRow } from "../services/question.service.js";
 import type TelegramBot from "node-telegram-bot-api";
 
+function idxLetter(i: number): string {
+  return String.fromCharCode(65 + i); // A..Z
+}
+
 export function answersKeyboardSingle(
   sessionId: string,
   questionId: number,
   qIndex: number,
   answers: AnswerRow[],
-  selected: number | null
+  selectedId: number | null
 ): TelegramBot.InlineKeyboardMarkup {
-  const rows: TelegramBot.InlineKeyboardButton[][] = answers.map((a) => [
-    {
-      text: (selected === a.id ? "✅ " : "▫️ ") + trim(a.text, 40),
-      callback_data: `ans:${sessionId}:${questionId}:${qIndex}:${a.id}`,
-    },
-  ]);
+  const rows = answers.map((a, i) => {
+    const chosen = selectedId !== null && a.id === selectedId;
+    const label = `${chosen ? "☑" : "☐"} ${idxLetter(i)}`;
+    return [
+      {
+        text: label,
+        callback_data: `ans:${sessionId}:${questionId}:${qIndex}:${a.id}`,
+      },
+    ];
+  });
   return { inline_keyboard: rows };
 }
 
@@ -24,12 +32,16 @@ export function answersKeyboardMulti(
   answers: AnswerRow[],
   selected: Set<number>
 ): TelegramBot.InlineKeyboardMarkup {
-  const rows: TelegramBot.InlineKeyboardButton[][] = answers.map((a) => [
-    {
-      text: (selected.has(a.id) ? "✅ " : "⬜ ") + trim(a.text, 40),
-      callback_data: `tog:${sessionId}:${questionId}:${qIndex}:${a.id}`,
-    },
-  ]);
+  const rows = answers.map((a, i) => {
+    const chosen = selected.has(a.id);
+    const label = `${chosen ? "☑" : "☐"} ${idxLetter(i)}`;
+    return [
+      {
+        text: label,
+        callback_data: `tog:${sessionId}:${questionId}:${qIndex}:${a.id}`,
+      },
+    ];
+  });
   return { inline_keyboard: rows };
 }
 
@@ -118,18 +130,30 @@ export function extrasControls(
   questionId: number,
   qIndex: number,
   allowReveal: boolean,
-  allowLearn: boolean
+  allowLearn: boolean,
+  allowExplain: boolean
 ): TelegramBot.InlineKeyboardMarkup {
   const row: TelegramBot.InlineKeyboardButton[] = [];
-  if (allowReveal)
+  if (allowReveal) {
     row.push({
       text: "👀 Reveal",
       callback_data: `reveal:${sessionId}:${questionId}:${qIndex}`,
     });
-  if (allowLearn)
+  }
+
+  if (allowLearn) {
     row.push({
       text: "📖 Learn more",
       callback_data: `learn:${sessionId}:${questionId}:${qIndex}`,
     });
+  }
+
+  if (allowExplain) {
+    row.push({
+      text: "🧠 Explain",
+      callback_data: `explain:${sessionId}:${questionId}:${qIndex}`,
+    });
+  }
+
   return { inline_keyboard: [row] };
 }

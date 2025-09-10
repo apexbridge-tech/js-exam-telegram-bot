@@ -59,7 +59,7 @@ export function inferReference(q: QuestionRow): RefLink | null {
 }
 
 function mdn(path: string): RefLink {
-  const title = `MDN — ${
+  const title = `MDN - ${
     path.replace(/_/g, " ").split("/").pop() ?? "Reference"
   }`;
   return {

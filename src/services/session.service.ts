@@ -408,3 +408,36 @@ export async function restartPracticeSession(
   const next = await createExamSession(s.user_id, s.exam_id, "practice");
   return next;
 }
+
+export interface SessionService {
+  getActiveSessionForUser(userId: number): Promise<ActiveSession | undefined>;
+  getSessionById(sessionId: string): Promise<ActiveSession | undefined>;
+  progressForSession(
+    sessionId: string
+  ): Promise<{ answered: number; flagged: number; total: number }>;
+  selectedAnswerIds(sessionId: string, questionId: number): Promise<number[]>;
+  sessionStatuses(
+    sessionId: string
+  ): Promise<Array<"unanswered" | "answered" | "flagged">>;
+  remainingSeconds(sessionId: string): Promise<number | null>;
+  finalizeAndSubmit(
+    sessionId: string,
+    passPercent: number
+  ): Promise<{ result: GradeResult; passed: boolean }>;
+  createExamSession(
+    userId: number,
+    examId: number,
+    mode: SessionMode
+  ): Promise<ActiveSession>;
+}
+
+export const sessionService: SessionService = {
+  getActiveSessionForUser,
+  getSessionById,
+  progressForSession,
+  selectedAnswerIds,
+  sessionStatuses,
+  remainingSeconds,
+  finalizeAndSubmit,
+  createExamSession,
+};

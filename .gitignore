@@ -3,3 +3,7 @@ dist
 .env
 data/*.sqlite*
 data/backups
+logs/app.log
+logs/error.log
+logs/exceptions.log
+logs/rejections.log

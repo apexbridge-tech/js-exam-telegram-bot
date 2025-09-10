@@ -6,6 +6,7 @@ const Env = z.object({
   DB_FILE: z.string().default("./data/jsa.sqlite"),
   TZ: z.string().optional(),
   NODE_ENV: z.string().optional(),
+  QUESTIONS_FILE: z.string().default("./data/questions.json"),
 });
 
 export const config = Env.parse(process.env);

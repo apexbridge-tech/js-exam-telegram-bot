@@ -38,3 +38,13 @@ export function getAnswersForQuestion(qid: number): Promise<AnswerRow[]> {
     );
   });
 }
+
+export interface QuestionService {
+  getQuestionById(id: number): Promise<QuestionRow>;
+  getAnswersForQuestion(qid: number): Promise<AnswerRow[]>;
+}
+
+export const questionService: QuestionService = {
+  getQuestionById,
+  getAnswersForQuestion,
+};

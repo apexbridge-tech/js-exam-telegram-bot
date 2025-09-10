@@ -34,29 +34,29 @@ export function startScheduler(bot: TelegramBot, passPercent: number): void {
         const { result } = await finalizeAndSubmit(s.id, passPercent);
         await bot.sendMessage(
           chatId,
-          `⏰ Time is up. Your exam was auto-submitted.\nScore: ${result.correct}/${result.total} — ${result.percent}%`,
-          { parse_mode: "Markdown" }
+          `⏰ Time is up. Your exam was auto-submitted.\nScore: ${result.correct}/${result.total} - ${result.percent}%`,
+          { parse_mode: "MarkdownV2" }
         );
         continue;
       }
       if (rem <= 60 && s.warn1_sent === 0) {
         await setWarnSent(s.id, 1);
         await bot.sendMessage(chatId, "⏱ *1 minute* remaining!", {
-          parse_mode: "Markdown",
+          parse_mode: "MarkdownV2",
         });
         continue;
       }
       if (rem <= 300 && s.warn5_sent === 0) {
         await setWarnSent(s.id, 5);
         await bot.sendMessage(chatId, "⏱ *5 minutes* remaining.", {
-          parse_mode: "Markdown",
+          parse_mode: "MarkdownV2",
         });
         continue;
       }
       if (rem <= 600 && s.warn10_sent === 0) {
         await setWarnSent(s.id, 10);
         await bot.sendMessage(chatId, "⏱ *10 minutes* remaining.", {
-          parse_mode: "Markdown",
+          parse_mode: "MarkdownV2",
         });
         continue;
       }

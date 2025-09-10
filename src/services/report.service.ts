@@ -16,7 +16,7 @@ export function renderResultReport(
 ): ReportStrings {
   const passed: boolean = result.percent >= passPercent;
   const headlineIcon: string = passed ? "✅" : "❌";
-  const headline: string = `${headlineIcon} *Score:* ${result.correct}/${result.total} — *${result.percent}%* (pass ≥ ${passPercent}%)`;
+  const headline: string = `${headlineIcon} *Score:* ${result.correct}/${result.total} - *${result.percent}%* (pass ≥ ${passPercent}%)`;
 
   const detail: string = passed
     ? "Great job! You met the passing threshold."
@@ -39,7 +39,20 @@ function renderSectionTable(rows: SectionStats[]): string {
   for (const s of order) {
     const row: SectionStats | undefined = rows.find((r) => r.section === s);
     if (!row) continue;
-    lines.push(`• _${s}_ — ${row.correct}/${row.total}`);
+    lines.push(`• _${s}_ - ${row.correct}/${row.total}`);
   }
   return lines.join("\n");
 }
+
+export interface ReportService {
+  renderResultReport(
+    result: GradeResult,
+    passPercent: number,
+    failedCooldownDays: number,
+    nextEligibleDateIso: string | null
+  ): ReportStrings;
+}
+
+export const reportService: ReportService = {
+  renderResultReport,
+};

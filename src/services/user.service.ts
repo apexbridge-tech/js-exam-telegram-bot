@@ -77,3 +77,13 @@ export async function getUserById(id: number): Promise<UserRow | undefined> {
     );
   });
 }
+
+export interface UserService {
+  getUserById(id: number): Promise<UserRow | undefined>;
+  upsertUser(u: TgUserLite): Promise<number>;
+}
+
+export const userService: UserService = {
+  getUserById,
+  upsertUser,
+};

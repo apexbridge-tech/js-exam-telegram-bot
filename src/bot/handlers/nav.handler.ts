@@ -128,7 +128,7 @@ export function registerNavHandlers(bot: TelegramBot): void {
         await bot.editMessageText(reportText, {
           chat_id: chatId,
           message_id: msgId,
-          parse_mode: "Markdown",
+          parse_mode: "MarkdownV2",
         });
         await bot.answerCallbackQuery(q.id);
         return;
