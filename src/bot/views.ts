@@ -100,6 +100,13 @@ export function escapeUrlV2(url: string): string {
   return url.replace(/\(/g, "\\(").replace(/\)/g, "\\)");
 }
 
+export function escapeMarkdownV2KeepFormat(s: string): string {
+  // Escapes all MarkdownV2 special chars EXCEPT * and _
+  // so your existing bold/italic markers still work.
+  // List: \ [ ] ( ) ~ ` > # + - = | { } . !
+  return s.replace(/([\\[\]()~`>#+\-=|{}.!])/g, "\\$1");
+}
+
 // Lettered answers, shows full text with chosen-state ✓, and escapes everything needed for V2
 export function renderAnswersListWithStateV2(
   answers: Array<{ id: number; text: string }>,

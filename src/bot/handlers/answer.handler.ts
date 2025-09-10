@@ -30,10 +30,10 @@ import { BotService } from "../../services/bot.service.js";
  * Register handlers for answer selection, toggling, and extras (reveal/learn).
  */
 export function registerAnswerHandlers(
-  bot: TelegramBot,
+  botService: BotService,
   processors: Array<BaseAnswerProcessor>
 ): void {
-  bot.on(
+  botService.on(
     "callback_query",
     async (q: TelegramBot.CallbackQuery): Promise<void> => {
       const data: string = q.data ?? "";

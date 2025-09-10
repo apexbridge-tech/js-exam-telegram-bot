@@ -1,7 +1,5 @@
 import type TelegramBot from "node-telegram-bot-api";
 import {
-  getActiveSessionForUser,
-  getQuestionIdAt,
   progressForSession,
   setCurrentIndex,
   toggleFlag,
@@ -11,14 +9,15 @@ import {
   remainingSeconds,
 } from "../../services/session.service.js";
 import { navigatorKeyboard } from "../keyboards.js";
-import { renderProgress } from "../views.js";
 import { showQuestion } from "./answer.handler.js";
 import { humanTimeLeft } from "../../services/timer.service.js";
 import { renderResultReport } from "../../services/report.service.js";
 import { PASS_PERCENT } from "../../domain/policy.js";
+import { BotService } from "../../services/bot.service.js";
+import { escapeMarkdownV2KeepFormat } from "../views.js";
 
-export function registerNavHandlers(bot: TelegramBot): void {
-  bot.on(
+export function registerNavHandlers(botService: BotService): void {
+  botService.on(
     "callback_query",
     async (q: TelegramBot.CallbackQuery): Promise<void> => {
       const data: string = q.data ?? "";
@@ -37,8 +36,8 @@ export function registerNavHandlers(bot: TelegramBot): void {
         const nextIndex: number =
           kind === "prev" ? Math.max(1, idx - 1) : Math.min(40, idx + 1);
         await setCurrentIndex(sid, nextIndex);
-        await showQuestion(bot, chatId, sid, nextIndex, msgId);
-        await bot.answerCallbackQuery(q.id);
+        await showQuestion(botService, chatId, sid, nextIndex, msgId);
+        await botService.answerCallbackQuery(q.id);
         return;
       }
 
@@ -48,8 +47,8 @@ export function registerNavHandlers(bot: TelegramBot): void {
         const sid: string = m[1];
         const idx: number = Number(m[2]);
         const now: 0 | 1 = await toggleFlag(sid, idx);
-        await showQuestion(bot, chatId, sid, idx, msgId);
-        await bot.answerCallbackQuery(q.id, {
+        await showQuestion(botService, chatId, sid, idx, msgId);
+        await botService.answerCallbackQuery(q.id, {
           text: now ? "Flagged 🚩" : "Unflagged",
         });
         return;
@@ -60,11 +59,14 @@ export function registerNavHandlers(bot: TelegramBot): void {
       if (m) {
         const sid: string = m[1];
         const statuses = await sessionStatuses(sid);
-        await bot.answerCallbackQuery(q.id);
-        await bot.editMessageReplyMarkup(navigatorKeyboard(sid, statuses), {
-          chat_id: chatId,
-          message_id: msgId,
-        });
+        await botService.answerCallbackQuery(q.id);
+        await botService.editMessageReplyMarkup(
+          navigatorKeyboard(sid, statuses),
+          {
+            chat_id: chatId,
+            message_id: msgId,
+          }
+        );
         return;
       }
 
@@ -74,8 +76,8 @@ export function registerNavHandlers(bot: TelegramBot): void {
         const sid: string = m[1];
         const idx: number = Number(m[2]);
         await setCurrentIndex(sid, idx);
-        await showQuestion(bot, chatId, sid, idx, msgId);
-        await bot.answerCallbackQuery(q.id);
+        await showQuestion(botService, chatId, sid, idx, msgId);
+        await botService.answerCallbackQuery(q.id);
         return;
       }
 
@@ -86,7 +88,7 @@ export function registerNavHandlers(bot: TelegramBot): void {
         const p = await progressForSession(sid);
         const secs: number | null = await remainingSeconds(sid);
         const t: string = secs === null ? "∞" : humanTimeLeft(secs);
-        await bot.answerCallbackQuery(q.id, {
+        await botService.answerCallbackQuery(q.id, {
           text: `Answered: ${p.answered}/${p.total} | Flagged: ${p.flagged} | ⏱ ${t}`,
           show_alert: true,
         });
@@ -99,8 +101,8 @@ export function registerNavHandlers(bot: TelegramBot): void {
         const sid: string = m[1];
         const sess = await getSessionById(sid);
         const idx: number = sess?.current_index ?? 1;
-        await showQuestion(bot, chatId, sid, idx, msgId);
-        await bot.answerCallbackQuery(q.id);
+        await showQuestion(botService, chatId, sid, idx, msgId);
+        await botService.answerCallbackQuery(q.id);
         return;
       }
 
@@ -125,12 +127,15 @@ export function registerNavHandlers(bot: TelegramBot): void {
         );
         const reportText: string = `${report.headline}\n\n${report.sections}\n\n${report.detail}\n\n${report.footer}`;
 
-        await bot.editMessageText(reportText, {
-          chat_id: chatId,
-          message_id: msgId,
-          parse_mode: "MarkdownV2",
-        });
-        await bot.answerCallbackQuery(q.id);
+        await botService.editMessageText(
+          escapeMarkdownV2KeepFormat(reportText),
+          {
+            chat_id: chatId,
+            message_id: msgId,
+            parse_mode: "MarkdownV2",
+          }
+        );
+        await botService.answerCallbackQuery(q.id);
         return;
       }
     }

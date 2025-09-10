@@ -12,7 +12,8 @@ async function main(): Promise<void> {
   await initDb(config.DB_FILE);
   await seedBaseExam();
 
-  const bot = await createBot(config.BOT_TOKEN);
+  const { bot, services } = await createBot(config.BOT_TOKEN);
+
   startScheduler(bot, PASS_PERCENT);
   installGlobalErrorHandlers();
 

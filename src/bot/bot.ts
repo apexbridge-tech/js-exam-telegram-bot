@@ -5,14 +5,16 @@ import { registerNavHandlers } from "./handlers/nav.handler.js";
 import { registerResetHandlers } from "./handlers/reset.handler.js";
 import { logger } from "../logger.js";
 import { Services } from "../services/services.js";
+import { BaseAnswerProcessor } from "./handlers/processors/baseAnswerProcessor.js";
+import { createBotService } from "../services/bot.service.js";
 import { questionService } from "../services/question.service.js";
 import { reportService } from "../services/report.service.js";
 import { sessionService } from "../services/session.service.js";
 import { userService } from "../services/user.service.js";
-import { createBotService } from "../services/bot.service.js";
-import { BaseAnswerProcessor } from "./handlers/processors/baseAnswerProcessor.js";
 
-export async function createBot(token: string): Promise<TelegramBot> {
+export async function createBot(
+  token: string
+): Promise<{ bot: TelegramBot; services: Services }> {
   const bot = new TelegramBot(token, {
     polling: {
       autoStart: false,
@@ -27,7 +29,6 @@ export async function createBot(token: string): Promise<TelegramBot> {
   // Keep queued updates so /start sent before the process came up still arrives:
   await bot.deleteWebHook(); // ⬅️ no options (equivalent to not dropping pending updates)
   // Alternatively: await bot.deleteWebHook({ drop_pending_updates: false });
-
   const services: Services = {
     userService,
     questionService,
@@ -55,9 +56,9 @@ export async function createBot(token: string): Promise<TelegramBot> {
   ];
 
   registerCommands(services);
-  registerAnswerHandlers(bot, answerProcessors);
-  registerNavHandlers(bot);
-  registerResetHandlers(bot);
+  registerAnswerHandlers(services.botService, answerProcessors);
+  registerNavHandlers(services.botService);
+  registerResetHandlers(services.botService);
 
   await bot.startPolling({ restart: true }); // start long-polling
   logger.info("Polling started.");
@@ -66,5 +67,5 @@ export async function createBot(token: string): Promise<TelegramBot> {
   const me = await bot.getMe();
   logger.info(`Logged in as @${me.username}`);
 
-  return bot;
+  return { bot, services };
 }

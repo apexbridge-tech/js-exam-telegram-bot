@@ -9,10 +9,10 @@ import {
   restartPracticeSession,
 } from "../../services/session.service.js";
 import { showQuestion } from "./answer.handler.js";
-import { escapeMd } from "../views.js";
+import { BotService } from "../../services/bot.service.js";
 
-export function registerResetHandlers(bot: TelegramBot): void {
-  bot.on(
+export function registerResetHandlers(botService: BotService): void {
+  botService.on(
     "callback_query",
     async (q: TelegramBot.CallbackQuery): Promise<void> => {
       const data: string = q.data ?? "";
@@ -25,12 +25,12 @@ export function registerResetHandlers(bot: TelegramBot): void {
         const sid: string = m[1];
         const sess = await getSessionById(sid);
         if (!sess) {
-          await safeAck(bot, q.id);
+          await safeAck(botService, q.id);
           return;
         }
         // Build menu depending on mode
-        await bot.answerCallbackQuery(q.id);
-        await bot.editMessageReplyMarkup(
+        await botService.answerCallbackQuery(q.id);
+        await botService.editMessageReplyMarkup(
           resetMenuKb(sid, sess.mode === "practice", sess.mode === "exam"),
           {
             chat_id: msg.chat.id,
@@ -46,18 +46,18 @@ export function registerResetHandlers(bot: TelegramBot): void {
         const sid: string = m[1];
         const sess = await getSessionById(sid);
         if (!sess) {
-          await safeAck(bot, q.id);
+          await safeAck(botService, q.id);
           return;
         }
         const row = await getQuestionIdAt(sid, sess.current_index);
         if (!row) {
-          await safeAck(bot, q.id, "Question not found.");
+          await safeAck(botService, q.id, "Question not found.");
           return;
         }
         await clearAnswersForQuestion(sid, row.question_id);
-        await safeAck(bot, q.id, "Cleared this question.");
+        await safeAck(botService, q.id, "Cleared this question.");
         await showQuestion(
-          bot,
+          botService,
           msg.chat.id,
           sid,
           sess.current_index,
@@ -70,8 +70,8 @@ export function registerResetHandlers(bot: TelegramBot): void {
       m = /^ask:resall:([^:]+)$/.exec(data);
       if (m) {
         const sid: string = m[1];
-        await safeAck(bot, q.id);
-        await bot.editMessageReplyMarkup(
+        await safeAck(botService, q.id);
+        await botService.editMessageReplyMarkup(
           confirmKb("Clear ALL answers?", `do:resall:${sid}`, `reset:${sid}`),
           {
             chat_id: msg.chat.id,
@@ -87,9 +87,9 @@ export function registerResetHandlers(bot: TelegramBot): void {
         const sid: string = m[1];
         await clearAllAnswers(sid);
         const sess = await getSessionById(sid);
-        await safeAck(bot, q.id, "All answers cleared.");
+        await safeAck(botService, q.id, "All answers cleared.");
         await showQuestion(
-          bot,
+          botService,
           msg.chat.id,
           sid,
           sess?.current_index ?? 1,
@@ -104,9 +104,9 @@ export function registerResetHandlers(bot: TelegramBot): void {
         const sid: string = m[1];
         await clearAllFlags(sid);
         const sess = await getSessionById(sid);
-        await safeAck(bot, q.id, "All flags removed.");
+        await safeAck(botService, q.id, "All flags removed.");
         await showQuestion(
-          bot,
+          botService,
           msg.chat.id,
           sid,
           sess?.current_index ?? 1,
@@ -119,8 +119,8 @@ export function registerResetHandlers(bot: TelegramBot): void {
       m = /^ask:abandon:([^:]+)$/.exec(data);
       if (m) {
         const sid: string = m[1];
-        await safeAck(bot, q.id);
-        await bot.editMessageReplyMarkup(
+        await safeAck(botService, q.id);
+        await botService.editMessageReplyMarkup(
           confirmKb(
             "Abandon this exam? Progress will be lost.",
             `do:abandon:${sid}`,
@@ -139,8 +139,8 @@ export function registerResetHandlers(bot: TelegramBot): void {
       if (m) {
         const sid: string = m[1];
         await abandonSession(sid);
-        await safeAck(bot, q.id, "Exam abandoned.");
-        await bot.editMessageText(
+        await safeAck(botService, q.id, "Exam abandoned.");
+        await botService.editMessageText(
           "🛑 This exam was abandoned. Start again with /begin_exam or /practice.",
           {
             chat_id: msg.chat.id,
@@ -154,8 +154,8 @@ export function registerResetHandlers(bot: TelegramBot): void {
       m = /^ask:restart:([^:]+)$/.exec(data);
       if (m) {
         const sid: string = m[1];
-        await safeAck(bot, q.id);
-        await bot.editMessageReplyMarkup(
+        await safeAck(botService, q.id);
+        await botService.editMessageReplyMarkup(
           confirmKb(
             "Restart practice with a new set?",
             `do:restart:${sid}`,
@@ -174,12 +174,12 @@ export function registerResetHandlers(bot: TelegramBot): void {
       if (m) {
         const sid: string = m[1];
         const newSess = await restartPracticeSession(sid);
-        await safeAck(bot, q.id, "Practice restarted.");
-        await bot.editMessageText("Practice restarted 📘", {
+        await safeAck(botService, q.id, "Practice restarted.");
+        await botService.editMessageText("Practice restarted 📘", {
           chat_id: msg.chat.id,
           message_id: msg.message_id,
         });
-        await showQuestion(bot, msg.chat.id, newSess.id, 1);
+        await showQuestion(botService, msg.chat.id, newSess.id, 1);
         return;
       }
     }
@@ -236,14 +236,14 @@ function confirmKb(
 /* ---------- utils ---------- */
 
 async function safeAck(
-  bot: TelegramBot,
+  botService: BotService,
   id: string | undefined,
   text?: string,
   showAlert: boolean = false
 ): Promise<void> {
   if (!id) return;
   try {
-    await bot.answerCallbackQuery(
+    await botService.answerCallbackQuery(
       id,
       text ? { text, show_alert: showAlert } : {}
     );

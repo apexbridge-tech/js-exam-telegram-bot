@@ -1,11 +1,16 @@
 import TelegramBot from "node-telegram-bot-api";
+import { logger } from "../logger.js";
 
 export interface BotService {
+  on(
+    event: string,
+    listener: (q: TelegramBot.CallbackQuery) => Promise<void>
+  ): void;
   sendMessage(
     chatId: TelegramBot.ChatId,
     text: string,
     options?: TelegramBot.SendMessageOptions
-  ): Promise<TelegramBot.Message>;
+  ): Promise<TelegramBot.Message | undefined>;
 
   editMessageText(
     text: string,
@@ -28,28 +33,31 @@ export interface BotService {
   ): void;
 }
 
-const ensureMarkdownCompatible = (text: string) => {
-  // Replace potentially problematic characters
-  return text;
-  //    .replace(/•/g, "-") // Replace bullets with hyphens
-  //    .replace(/—/g, "-") // Replace em dashes with hyphens
-  //    .replace(/"/g, '"') // Replace smart quotes with straight quotes
-  //    .replace(/"/g, '"') // Replace smart quotes with straight quotes
-  //    .replace(/'/g, "'") // Replace smart quotes with straight quotes
-  //    .replace(/'/g, "'"); // Replace smart quotes with straight quotes
-};
-
 export function createBotService(bot: TelegramBot): BotService {
   return {
     sendMessage: async (chatId, text, options) => {
       try {
         return await bot.sendMessage(chatId, text, options);
       } catch (error) {
-        throw error;
+        logger.error("Error sending message:", error);
+        return undefined;
       }
     },
     editMessageText: async (text, options) => {
-      return await bot.editMessageText(text, options);
+      try {
+        return await bot.editMessageText(text, options);
+      } catch (error) {
+        // If the message is not modified, treat it as a success case
+        if (
+          error instanceof Error &&
+          error.message.includes("message is not modified")
+        ) {
+          return true;
+        }
+
+        logger.error("Error editing message text:", error);
+        return false;
+      }
     },
     answerCallbackQuery: async (callbackQueryId, options) => {
       return await bot.answerCallbackQuery(callbackQueryId, options);
@@ -59,6 +67,9 @@ export function createBotService(bot: TelegramBot): BotService {
     },
     onText: (regexp, callback) => {
       bot.onText(regexp, callback);
+    },
+    on: (event, listener) => {
+      bot.on(event, listener);
     },
   };
 }

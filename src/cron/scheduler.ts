@@ -1,5 +1,4 @@
 import cron from "node-cron";
-import type TelegramBot from "node-telegram-bot-api";
 import type sqlite3 from "sqlite3";
 import { getDb } from "../db/sqlite.js";
 import {
@@ -8,7 +7,7 @@ import {
   setWarnSent,
   userAndChatForSession,
 } from "../services/session.service.js";
-import { humanTimeLeft } from "../services/timer.service.js";
+import { BotService } from "../services/bot.service.js";
 
 interface ScanRow {
   id: string;
@@ -17,7 +16,10 @@ interface ScanRow {
   warn1_sent: 0 | 1;
 }
 
-export function startScheduler(bot: TelegramBot, passPercent: number): void {
+export function startScheduler(
+  botService: BotService,
+  passPercent: number
+): void {
   // Every 30s: scan active exam sessions
   cron.schedule("*/30 * * * * *", async () => {
     const toScan: ScanRow[] = await listActiveSessions();
@@ -32,7 +34,7 @@ export function startScheduler(bot: TelegramBot, passPercent: number): void {
       if (rem <= 0) {
         // Auto-submit
         const { result } = await finalizeAndSubmit(s.id, passPercent);
-        await bot.sendMessage(
+        await botService.sendMessage(
           chatId,
           `⏰ Time is up. Your exam was auto-submitted.\nScore: ${result.correct}/${result.total} - ${result.percent}%`,
           { parse_mode: "MarkdownV2" }
@@ -41,21 +43,21 @@ export function startScheduler(bot: TelegramBot, passPercent: number): void {
       }
       if (rem <= 60 && s.warn1_sent === 0) {
         await setWarnSent(s.id, 1);
-        await bot.sendMessage(chatId, "⏱ *1 minute* remaining!", {
+        await botService.sendMessage(chatId, "⏱ *1 minute* remaining!", {
           parse_mode: "MarkdownV2",
         });
         continue;
       }
       if (rem <= 300 && s.warn5_sent === 0) {
         await setWarnSent(s.id, 5);
-        await bot.sendMessage(chatId, "⏱ *5 minutes* remaining.", {
+        await botService.sendMessage(chatId, "⏱ *5 minutes* remaining.", {
           parse_mode: "MarkdownV2",
         });
         continue;
       }
       if (rem <= 600 && s.warn10_sent === 0) {
         await setWarnSent(s.id, 10);
-        await bot.sendMessage(chatId, "⏱ *10 minutes* remaining.", {
+        await botService.sendMessage(chatId, "⏱ *10 minutes* remaining.", {
           parse_mode: "MarkdownV2",
         });
         continue;

@@ -8,6 +8,7 @@ import { showQuestion } from "../handlers/answer.handler.js";
 import { Services } from "../../services/services.js";
 import { BotService } from "../../services/bot.service.js";
 import { EXAM_DURATION_MIN } from "../../domain/policy.js";
+import { escapeMarkdownV2KeepFormat } from "../views.js";
 
 export interface BotMessageFrom {
   id: number;
@@ -112,9 +113,12 @@ export abstract class BaseCommand {
         this.examId,
         mode
       );
-      await this.sendMessage(this.examModes.get(mode) ?? "", {
-        parse_mode: "MarkdownV2",
-      });
+      await this.sendMessage(
+        escapeMarkdownV2KeepFormat(this.examModes.get(mode)!) ?? "",
+        {
+          parse_mode: "MarkdownV2",
+        }
+      );
     } else {
       await this.sendMessage(
         "You already have an active exam. Showing your current question…"
