@@ -82,6 +82,9 @@ export async function registerCommands(
       (m) => m.AdminStatsCommand
     )
   );
+  commandFactory.registerCommand(
+    await import("./commands/healthCommand.js").then((m) => m.HealthCommand)
+  );
 
   commandFactory.submit();
 }
