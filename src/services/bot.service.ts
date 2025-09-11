@@ -39,7 +39,7 @@ export function createBotService(bot: TelegramBot): BotService {
       try {
         return await bot.sendMessage(chatId, text, options);
       } catch (error) {
-        logger.error("Error sending message:", error);
+        logger.error(`Error sending message: ${text}`, error);
         return undefined;
       }
     },
@@ -55,7 +55,7 @@ export function createBotService(bot: TelegramBot): BotService {
           return true;
         }
 
-        logger.error("Error editing message text:", error);
+        logger.error(`Error editing message text: ${text}`, error);
         return false;
       }
     },
