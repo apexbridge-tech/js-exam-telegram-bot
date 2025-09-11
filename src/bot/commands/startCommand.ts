@@ -25,10 +25,10 @@ export class StartCommand extends BaseCommand {
       ? "\nResume your active exam with /progress or continue below."
       : "\nStart your exam with /begin_exam or try /practice (untimed).";
 
-    const greetingName: string = this.firstName ?? "there";
+    const greeting: string = `Welcome, ${this.firstName ?? "there"}!`;
 
     const text: string =
-      `Welcome, ${escapeMarkdownV2KeepFormat(greetingName)}\\! 👋\n` + // note \\! in the literal
+      `${escapeMarkdownV2KeepFormat(greeting)} 👋\n` +
       `This bot simulates *JSA\\-41\\-01*.\n\n` +
       `Commands:\n` +
       `• ${this.mdv2Cmd("begin_exam")} — start a new timed exam 🧪\n` +
