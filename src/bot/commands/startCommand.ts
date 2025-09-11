@@ -29,15 +29,14 @@ export class StartCommand extends BaseCommand {
 
     const text: string =
       `${escapeMarkdownV2KeepFormat(greeting)} 👋\n` +
-      `This bot simulates *JSA\\-41\\-01*.\n\n` +
+      `${escapeMarkdownV2KeepFormat("This bot simulates *JSA-41-01*.")}\n\n` +
       `Commands:\n` +
       `• ${this.mdv2Cmd("begin_exam")} — start a new timed exam 🧪\n` +
       `• ${this.mdv2Cmd("practice")} — start untimed practice 📘\n` +
       `• ${this.mdv2Cmd("progress")} — current status 📊\n` +
       `• ${this.mdv2Cmd("submit")} — submit your exam ✅\n` +
-      `Timer: ${EXAM_DURATION_MIN} minutes (with 10/5/1 min warnings).${
-        hint ? ` ${escapeMdV2(hint)}` : ""
-      }`;
+      `Timer: ${EXAM_DURATION_MIN} minutes (with 10/5/1 min warnings)` +
+      `${hint ? ` ${escapeMdV2(hint)}` : ""}`;
 
     await this.sendMessage(text, { parse_mode: "MarkdownV2" });
   }
