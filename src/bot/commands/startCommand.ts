@@ -35,7 +35,9 @@ export class StartCommand extends BaseCommand {
       `• ${this.mdv2Cmd("practice")} — start untimed practice 📘\n` +
       `• ${this.mdv2Cmd("progress")} — current status 📊\n` +
       `• ${this.mdv2Cmd("submit")} — submit your exam ✅\n` +
-      `Timer: ${EXAM_DURATION_MIN} minutes (with 10/5/1 min warnings)` +
+      escapeMarkdownV2KeepFormat(
+        `Timer: ${EXAM_DURATION_MIN} minutes (with 10/5/1 min warnings)`
+      ) +
       `${hint ? ` ${escapeMdV2(hint)}` : ""}`;
 
     await this.sendMessage(text, { parse_mode: "MarkdownV2" });
