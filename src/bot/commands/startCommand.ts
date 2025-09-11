@@ -1,5 +1,5 @@
 import { EXAM_DURATION_MIN } from "../../domain/policy.js";
-import { escapeMdV2 } from "../views.js";
+import { escapeMarkdownV2KeepFormat, escapeMdV2 } from "../views.js";
 import { BaseCommand } from "./baseCommand.js";
 
 export class StartCommand extends BaseCommand {
@@ -28,8 +28,8 @@ export class StartCommand extends BaseCommand {
     const greetingName: string = this.firstName ?? "there";
 
     const text: string =
-      `Welcome, ${escapeMdV2(greetingName)}\! 👋\n` +
-      `This bot simulates *JSA-41-01*.\n\n` +
+      `Welcome, ${escapeMarkdownV2KeepFormat(greetingName)}\\! 👋\n` + // note \\! in the literal
+      `This bot simulates *JSA\\-41\\-01*.\n\n` +
       `Commands:\n` +
       `• ${this.mdv2Cmd("begin_exam")} — start a new timed exam 🧪\n` +
       `• ${this.mdv2Cmd("practice")} — start untimed practice 📘\n` +
